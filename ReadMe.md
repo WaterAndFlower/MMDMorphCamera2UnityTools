@@ -10,7 +10,7 @@ Pay attention to the console output of the software, which can be very helpful.
 
 This tool Only used a few simple dependencies, so there is no need to configure dependencies,just have fun!
 
-🎞️Get A Video Help See [here]().哔哩哔哩视频网。
+🎞️Get A Video Help See [MMD4Mecanim没法导入表情？快用这个插件导入表情/相机数据文件！超快超轻松~（MMD to Unity 表情）](https://www.bilibili.com/video/BV1DK421x7c2/).哔哩哔哩视频网。
 # Install
 Download the Release Version From
 [Here](Release/PowerBearMMD2UnityTools.unitypackage).
@@ -58,6 +58,10 @@ This work refers to some other works,my most sincere thanks to all the authors b
 - Modeller(鏡音リン)：Sour暄
 # License
 See The License File In This Project.
+
+简要说明：您不允许使用本项目在任何的学术目的上（包括投递论文，专利，简历）
+
+本项目享有完整的署名权力，您需要在合适位置上声明本项目名称或地址和使用目的。
 
 
 大千小熊（哔哩哔哩）
