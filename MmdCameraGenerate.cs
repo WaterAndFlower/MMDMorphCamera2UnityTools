@@ -23,10 +23,11 @@ namespace PowerBearEditor {
             get { return vmdObject.vmd_file; }
         }
         private AnimationClip clip;
-        GUIContent content;
+        GUIContent content, content1;
         public float scale = 1;
         public float frame_rate = 30;
         public bool set_camrae_fov = false;
+        public bool set_camrae_perspective = false;
         float3x3 RotationX(float angle) {
             float sine = (float)Mathf.Sin(angle);
             float cose = (float)Mathf.Cos(angle);
@@ -80,11 +81,13 @@ namespace PowerBearEditor {
             List<Keyframe> zRot = new();
             List<Keyframe> wRot = new();
             List<Keyframe> fov = new();
+            List<Keyframe> cameraType = new();
 
             foreach (var item in frames) {
                 var _f = item.FrameIndex * delta;
                 // Right Hand Axies Up Y
                 float3 current_camera_anchor_mmd = new(item.XPosition, item.YPosition, item.ZPosition);
+                current_camera_anchor_mmd *= scale;
                 float distance = item.Distance * scale;
                 // pos far
                 float3 camera_pos_point_mmd = new(0, 0, 1);
@@ -106,12 +109,15 @@ namespace PowerBearEditor {
                 xPos.Add(new(_f, final_camera_pos.x));
                 yPos.Add(new(_f, final_camera_pos.y));
                 zPos.Add(new(_f, final_camera_pos.z));
-                Vector3 m_d = new(view_dir.x, view_dir.y, view_dir.z);
-                var quaternion = Quaternion.LookRotation(m_d * -1f);
+
+                var quaternion = Quaternion.LookRotation(new(-view_dir.x, -view_dir.y, -view_dir.z));
                 var z_auaternion = Quaternion.Euler(0, 0, item.ZRotation * Mathf.Rad2Deg);
-
+                // first L and R
                 quaternion = quaternion * z_auaternion;
-
+                //var quaternion = Quaternion.Euler(new Vector3(item.XRotation * Mathf.Rad2Deg, item.YRotation * Mathf.Rad2Deg, item.ZRotation * Mathf.Rad2Deg));
+                Vector3 rotvec = new(item.XRotation, item.YRotation, item.ZRotation);
+                rotvec *= Mathf.Rad2Deg;
+                quaternion = Quaternion.Euler(new(-rotvec.x, 180 - rotvec.y, -rotvec.z));
                 xRot.Add(new(_f, quaternion.x));
                 yRot.Add(new(_f, quaternion.y));
                 zRot.Add(new(_f, quaternion.z));
@@ -119,6 +125,9 @@ namespace PowerBearEditor {
 
                 if (set_camrae_fov)
                     fov.Add(new(_f, item.FOV));
+
+                if (set_camrae_perspective)
+                    cameraType.Add(new(_f, item.Orthographic == true ? 1 : 0));
 
             }
 
@@ -130,6 +139,7 @@ namespace PowerBearEditor {
             var zRotationCurve = new AnimationCurve(zRot.ToArray());
             var wRotationCurve = new AnimationCurve(wRot.ToArray());
             var fovCurve = new AnimationCurve(fov.ToArray());
+            var typeCure = new AnimationCurve(cameraType.ToArray());
 
             clip.SetCurve("", typeof(Transform), "localPosition.x", xPostionCurve);
             clip.SetCurve("", typeof(Transform), "localPosition.y", yPostionCurve);
@@ -140,6 +150,8 @@ namespace PowerBearEditor {
             clip.SetCurve("", typeof(Transform), "localRotation.w", wRotationCurve);
             if (set_camrae_fov)
                 clip.SetCurve("", typeof(Camera), "field of view", fovCurve);
+            if (set_camrae_perspective)
+                clip.SetCurve("", typeof(Camera), "orthographic", typeCure);
             out_put_path = Path.Combine(Path.GetDirectoryName(vmd_path), "camera.anim");
             AssetDatabase.CreateAsset(clip, out_put_path);
         }
@@ -188,10 +200,11 @@ namespace PowerBearEditor {
             GUILayout.Label($"Scale {scale}X");
             scale = GUILayout.HorizontalSlider(scale, 0.001f, 10f);
             GUILayout.Space(10);
-            GUILayout.Label($"根据文件设置摄像机的fov");
-
-            content = content == null ? new GUIContent("根据文件设置摄像机的fov") : content;
+            GUILayout.Label($"Other Settings");
+            content = content == null ? new GUIContent("Set camera FOV") : content;
+            content1 = content1 == null ? new GUIContent("Set camera type (orthogonal/perspective)") : content1;
             set_camrae_fov = GUILayout.Toggle(set_camrae_fov, content);
+            set_camrae_perspective = GUILayout.Toggle(set_camrae_perspective, content1);
             GUILayout.Space(20);
             if (GUILayout.Button("Generate Camera Animation Clip")) {
                 domain();

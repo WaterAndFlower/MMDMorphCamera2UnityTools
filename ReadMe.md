@@ -1,5 +1,5 @@
 # MMD To Unity Tools
-### A Easy way for you to import camear/morph data
+### A Easy way for you to import camear/morph data From MMD To Unity3D
 
 This tool is used for MMD4Mecanim to import morph/camera data.So you need to import your model used MMD4Mecanim at first.
 
@@ -65,3 +65,12 @@ See The License File In This Project.
 
 
 大千小熊（哔哩哔哩）
+
+
+===== 2024 3 23 UPDATE =====
+- Fix Camera Import Problem, now can import camera data correctly.
+- Camera Import Tool now support to set camera FOV / Camera Type(perspective or orthogonality)
+![Alt text](Imgs/cameraimport.png)
+Test With 【Echo】（moka） Motion/ Camera Motion
+
+Have Fun With This Update
