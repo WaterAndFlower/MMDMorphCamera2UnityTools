@@ -59,10 +59,8 @@ This work refers to some other works,my most sincere thanks to all the authors b
 # License
 See The License File In This Project.
 
-简要说明：您不允许使用本项目在任何的学术目的上（包括投递论文，专利，简历）
-
-本项目享有完整的署名权力，您需要在合适位置上声明本项目名称或地址和使用目的。
-
+正式场合使用时请在合适的位置上声明本项目名称或地址和使用目的，谢谢您的理解和喜欢。
+When using it in formal settings, please indicate the name or address of this project and the purpose of use in an appropriate place. Thank you for your understanding and appreciation.
 
 大千小熊（哔哩哔哩）
 
